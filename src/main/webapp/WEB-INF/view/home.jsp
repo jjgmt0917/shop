@@ -3,11 +3,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>home</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
 	<h1>home</h1>
-	<h2>반갑습니다</h2>
+	<div>
+		<a href="${pageContext.request.contextPath}/public/login">로그인</a>
+	</div>
 </body>
 
 </html>
