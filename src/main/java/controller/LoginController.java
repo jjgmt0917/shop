@@ -11,9 +11,6 @@ import java.sql.SQLException;
 import dto.*;
 import dao.*;
 
-/**
- * Servlet implementation class LoignController
- */
 @WebServlet("/public/login")
 public class LoginController extends HttpServlet {
 	// form
