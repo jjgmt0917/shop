@@ -4,28 +4,22 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>회원가입</title>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+	<title>shop</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+	<link href="${pageContext.request.contextPath}/css/common.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/css/nav.css" rel="stylesheet">
 	<style>
-		body {
-			min-height: 100vh;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			padding: 20px;
+		.main-container {
+			max-width: 800px;
+			margin: 0 auto;
+			padding: 40px 20px;
 		}
 		
-		.signup-wrapper {
-			width: 100%;
-			max-width: 600px;
-		}
-		
-		.signup-title {
+		.page-title {
 			font-size: 28px;
 			font-weight: 600;
-			margin-bottom: 25px;
 			color: #333;
 		}
 		
@@ -95,9 +89,13 @@
 		.id-check-btn:hover {
 			background-color: #333;
 		}
-		
+		.btn-wrapper {
+			display: flex;
+			flex-direction: column;
+    		align-items: center;
+		}
 		.submit-btn {
-			width: 100%;
+			width: 50%;
 			padding: 16px;
 			background-color: #000;
 			color: white;
@@ -106,6 +104,7 @@
 			font-size: 16px;
 			font-weight: 600;
 			cursor: pointer;
+			margin-top: 20px;
 		}
 		
 		.submit-btn:hover {
@@ -134,10 +133,10 @@
 	</style>
 </head>
 <body>
-	<div class="signup-wrapper">
-		<h1 class="signup-title">회원가입</h1>
-		
-		<form id="signupForm" method="post" action="${pageContext.request.contextPath}/public/addCustomer">
+	<c:import url="/WEB-INF/view/inc/empMenu.jsp"></c:import>
+	<div class="main-container">
+		<h1 class="page-title">직원추가</h1>
+		<form id="empAddForm" method="post" action="${pageContext.request.contextPath}/emp/addEmp">
 			<div class="signup-box">
 				<!-- 아이디 -->
 				<div class="form-row">
@@ -173,16 +172,10 @@
 					</div>
 				</div>
 				
-				<!-- 휴대폰 번호 -->
-				<div class="form-row">
-					<label class="form-label">휴대폰 번호</label>
-					<div class="form-input-wrapper">
-						<input type="text" class="form-input" id="phone" name="phone" placeholder="010 - 0000 - 0000">
-					</div>
+				<div class="btn-wrapper">
+					<button type="button" class="submit-btn" id="addBtn">사원추가</button>
 				</div>
 			</div>
-			
-			<button type="button" class="submit-btn" id="addBtn">회원가입</button>
 		</form>
 	</div>
 </body>
@@ -249,14 +242,7 @@
 			alert('이름은 2자 이상으로 해주세요');
 			return;
 		}
-		
-		let phonePattern = /^0\d{1,2}-\d{3,4}-\d{4}$/;
-		if(!phonePattern.test($('#phone').val())){
-			alert('휴대폰번호가 적절하지 않습니다.');
-			return;
-		}
-		
-		$('#signupForm').submit();
+		$('#empAddForm').submit();
 	});
 </script>
 </html>

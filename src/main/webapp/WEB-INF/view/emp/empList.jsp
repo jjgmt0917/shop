@@ -10,18 +10,8 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 	<link href="${pageContext.request.contextPath}/css/nav.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath}/css/list.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/css/common.css" rel="stylesheet">
 	<style>
-		* {
-			margin: 0;
-			padding: 0;
-			box-sizing: border-box;
-		}
-		
-		body {
-			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
-			background-color: #f5f5f5;
-		}
-		
 		.main-container {
 			max-width: 1400px;
 			margin: 0 auto;
