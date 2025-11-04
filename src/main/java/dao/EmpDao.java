@@ -57,4 +57,50 @@ public class EmpDao {
 		}
 		return list;
 	}
+	
+	// 총 사원 수 확인
+	public int EmpTotalCount() throws SQLException {
+		Connection conn = DBConnection.getConn();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql = """
+				SELECT COUNT(emp_code) FROM emp
+			""";
+		stmt = conn.prepareStatement(sql);
+		rs = stmt.executeQuery();
+		int cnt = 0;
+		if(rs.next()) {
+			cnt = rs.getInt(1);
+		}
+		return cnt;
+	}
+	
+	// 직원 active 변경
+	public int ModifyEmpActive(int empCode) throws SQLException {
+		Connection conn = DBConnection.getConn();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql = """
+				SELECT active FROM emp WHERE emp_code = ?
+			""";
+		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, empCode);
+		rs = stmt.executeQuery();
+		Integer active = null;
+		
+		if(rs.next()) active = rs.getInt("active");
+		else return 333;
+		
+		int changeActive = active == 1 ? 0 : 1;
+		sql = """
+				UPDATE emp SET active = ? WHERE emp_code = ?
+			""";
+		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, changeActive);
+		stmt.setInt(2, empCode);
+		
+		int row = stmt.executeUpdate();
+		if(row == 1) return changeActive;
+		else return 444;
+	}
 }

@@ -23,6 +23,18 @@ public class EmpListController extends HttpServlet {
 		int lastPage = 0;
 		
 		EmpDao empDao = new EmpDao();
+		
+		int totalEmp = 0;
+		try {
+			totalEmp = empDao.EmpTotalCount();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		lastPage = totalEmp / rowPerPage + (totalEmp%rowPerPage == 0 ? 0 : 1);
+		System.out.println("lastPage: " + lastPage);
+		
 		List<Emp> empList = null;
 		try {
 			empList = empDao.selectEmpListByPage(beginRow, rowPerPage);

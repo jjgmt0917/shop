@@ -1,0 +1,101 @@
+@charset "UTF-8";
+/* 테이블 공통 스타일 */
+.table-section {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.common-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.common-table thead {
+    background-color: #f8f9fa;
+}
+
+.common-table th {
+    padding: 15px 10px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.common-table td {
+    padding: 15px 10px;
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.common-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.result-count {
+    text-align: right;
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: #666;
+}
+
+/* 페이징 공통 스타일 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 30px;
+}
+
+.pagination a,
+.pagination span {
+    padding: 8px 12px;
+    text-decoration: none;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.pagination a:hover {
+    background-color: #f8f9fa;
+}
+
+.pagination .active {
+    background-color: #000;
+    color: white;
+    border-color: #000;
+}
+
+/* 상태 버튼 공통 스타일 */
+.status-btn {
+    padding: 6px 16px;
+    background-color: #5c5c5c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.status-btn:hover {
+    background-color: #4a4a4a;
+    color: white;
+}
+
+.status-btn.active {
+    background-color: #28a745;
+}
+
+.status-btn.active:hover {
+    background-color: #218838;
+}

@@ -42,10 +42,13 @@ public class CustomerDao {
 					SELECT customer_id id FROM customer WHERE customer_id = ?
 					UNION ALL
 					SELECT emp_id id FROM emp WHERE emp_id = ?
+					UNION ALL
+					SELECT id FROM outid WHERE id = ? 
 				""";
 		stmt = conn.prepareStatement(sql);
 		stmt.setString(1, id);
 		stmt.setString(2, id);
+		stmt.setString(3, id);
 		rs = stmt.executeQuery();
 		int result = 0;
 		if(rs.next()) {
