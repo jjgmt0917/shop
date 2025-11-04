@@ -119,21 +119,21 @@
         <form method="post" id="loginForm" action="${pageContext.request.contextPath}/public/login">
             <div class="user-type-section">
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="customerOrEmpSel" id="customerSel" value="customer" checked>
+                    <input class="form-check-input" type="radio" name="customerOrEmpSel" id="customerSel" value="customer">
                     <label class="form-check-label" for="customerSel">Customer</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="customerOrEmpSel" id="empSel" value="emp">
+                    <input class="form-check-input" type="radio" name="customerOrEmpSel" id="empSel" value="emp" checked>
                     <label class="form-check-label" for="empSel">Employee</label>
                 </div>
             </div>
 
             <div class="mb-3">
-                <input type="text" class="form-control" name="id" id="id" placeholder="아이디를 입력하세요" required>
+                <input type="text" class="form-control" name="id" id="id" placeholder="아이디를 입력하세요" value="emp01" required>
             </div>
 
             <div class="mb-4">
-                <input type="password" class="form-control" name="pw" id="pw" placeholder="비밀번호를 입력하세요" required>
+                <input type="password" class="form-control" name="pw" id="pw" placeholder="비밀번호를 입력하세요" value="1234" required>
             </div>
 
             <button type="button" id="loginBtn" class="btn btn-login">로그인</button>

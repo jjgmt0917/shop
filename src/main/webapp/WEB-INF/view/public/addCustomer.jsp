@@ -93,6 +93,7 @@
 	    font-size: 16px;
 	    transition: background-color 0.3s;
 	    border-radius: 8px;
+	    cursor: pointer;
 	}
 	
 	.btn-signup-submit:hover {
