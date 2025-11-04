@@ -143,23 +143,23 @@
     </div>
 </body>
 <script>
-	document.querySelector('#loginBtn').addEventListener('click', () => {
-		let idPattern = /^[a-z0-9]+$/;
-		if(document.querySelector('#id').value == null || document.querySelector('#id').value == "") {
+	$('#loginBtn').click(() => {
+		if($('#id').val() == null || $('#id').val() == "") {
 			alert('아이디를 입력해주세요.');
 			return;
 		}
-		if(!idPattern.test(document.querySelector('#id').value)){
+		
+		let idPattern = /^[a-z0-9]+$/;
+		if(!idPattern.test($('#id').val())){
 			alert('아이디는 영어소문자와 숫자로만 입력해주세요');
 			return;
 		}
 		
-		if(document.querySelector('#pw').value == null || document.querySelector('#pw').value == "") {
+		if($('#pw').val() == null || $('#pw').val() == "") {
 			alert('비밀번호를 입력해주세요.');
 			return;
 		}
-		document.querySelector('#loginForm').submit();
+		$('#loginForm').submit();
 	});
-
 </script>
 </html>

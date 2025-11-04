@@ -32,4 +32,41 @@ public class CustomerDao {
 		}
 		return loginCustomer;
 	}
+	// 아이디 중복체크
+	public int IdCheck(String id) throws SQLException {
+		Connection conn = DBConnection.getConn();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		String sql = """
+					SELECT customer_id id FROM customer WHERE customer_id = ?
+					UNION ALL
+					SELECT emp_id id FROM emp WHERE emp_id = ?
+				""";
+		stmt = conn.prepareStatement(sql);
+		stmt.setString(1, id);
+		stmt.setString(2, id);
+		rs = stmt.executeQuery();
+		int result = 0;
+		if(rs.next()) {
+			result = 1;
+		}
+		return result;
+	}
+	// 회원가입
+	public int InsertCustomer(Customer cust) throws SQLException {
+		Connection conn = DBConnection.getConn();
+		PreparedStatement stmt = null;
+		String sql = """
+				INSERT INTO customer(customer_code, customer_id, customer_pw, customer_name, customer_phone, customer_point, createdate) 
+				VALUES (seq_customer.nextval, ?, ?, ?, ?, 0, sysdate)
+			""";
+		stmt = conn.prepareStatement(sql);
+		stmt.setString(1, cust.getCustomerId());
+		stmt.setString(2, cust.getCustomerPw());
+		stmt.setString(3, cust.getCustomerName());
+		stmt.setString(4, cust.getCustomerPhone());
+		
+		return stmt.executeUpdate();
+	}
 }
