@@ -134,19 +134,33 @@ public class GoodsDao {
 	}
 	
 	// 제품 soldout 변경
-	public boolean ModifyEmpActive(int empCode) throws SQLException {
+	public String ModifyGoodsSoldout(int goodsCode) throws SQLException {
 		Connection conn = DBConnection.getConn();
 		PreparedStatement selectStmt = null;
 		PreparedStatement updateStmt = null;
 		ResultSet rs = null;
-		Boolean result = false;
 		String selectSql = """
-				SELECT active FROM emp WHERE emp_code = ?
+				SELECT soldout FROM goods WHERE goods_code = ?
 			""";
 		String updateSql = """
-				UPDATE emp SET active = ? WHERE emp_code = ?
+				UPDATE goods SET soldout = ? WHERE goods_code = ?
 			""";
+		// 제품의 soldout 상태 먼저 받아오기
+		selectStmt = conn.prepareStatement(selectSql);
+		selectStmt.setInt(1, goodsCode);
+		rs = selectStmt.executeQuery();
+		rs.next();
+		String currentSO = rs.getString(1);
+		System.out.println("GoodsDao ========> crrSO: " + currentSO);
+		String newSO = (currentSO == "N") ? null : "N";
 		
-		return result;
+		// 제품 상태 업데이트
+		updateStmt = conn.prepareStatement(updateSql);
+		updateStmt.setString(1, newSO);
+		updateStmt.setInt(2, goodsCode);
+		int row = updateStmt.executeUpdate();
+		
+		if( row == 1) return newSO;
+		else return "sql update 실패";
 	}
 }

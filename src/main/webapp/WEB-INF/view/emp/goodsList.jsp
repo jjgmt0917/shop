@@ -135,10 +135,10 @@
 							<td>${g.goodsName}</td>
 							<td>${g.goodsPrice}</td>
 							<td>
-								<a href="${pageContext.request.contextPath}/emp/modifyGoodsSoldout?goodsCode=${e.empCode}&currentSoldout=${e.active}"
+								<a href="${pageContext.request.contextPath}/emp/modifyGoodsSoldout?goodsCode=${g.goodsCode}"
 								   class="status-btn ${g.soldout == 'N' ? '' : 'active'}" 
 								   data-goods-code="${g.goodsCode}">
-									${e.active == 'N' ? 'SOLD OUT' : '판매중'}
+									${g.soldout == 'N' ? 'SOLD OUT' : '판매중'}
 								</a>
 							</td>
 							<td>${g.createdate}</td>
@@ -164,24 +164,24 @@
 	$('.status-btn').click((e) => {
 		e.preventDefault();
 		
-		let empCode = $(e.currentTarget).data('goods-code');
+		let goodsCode = $(e.currentTarget).data('goods-code');
 		let btn = $(e.currentTarget);
 		
 		$.ajax({
 			url: '/shop/restapi/modifyGoodsSoldout',
 			type: 'post',
 			data: {
-				empCode: empCode,
+				goodsCode: goodsCode,
 			},
 			dataType: 'json',
 			success: function(response) {
 				// 버튼 상태 변경
-				if(response.newSoldOut != "N") {
-					btn.text('판매중').removeClass('status-btn').addClass('status-btn active');
+				if(response.newSoldout == null) {
 					alert('판매시작합니다.');
-				} else if(response.newSoldOut == 0) {
-					btn.text('SOLD OUT').removeClass('active');
+					btn.text('판매중').removeClass('status-btn').addClass('status-btn active');
+				} else if(response.newSoldOut == "N") {
                    	alert('재고가 소진되었습니다.');
+					btn.text('SOLDOUT').removeClass('active');
 				} else {
 					alert('상태 변경에 실패했습니다.');
 				}
