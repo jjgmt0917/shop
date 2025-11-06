@@ -1,16 +1,13 @@
 package dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
+import java.sql.*;
+import java.util.*;
 import dto.*;
 
 public class GoodsDao {
 	// 상품등록 + 이미지등록
 	// 반환값은 실패시 false
-	public boolean insertGoodsAndImg(Goods g, GoodsImg gi) {
+	public boolean InsertGoodsAndImg(Goods g, GoodsImg gi) {
 		boolean result = false;
 		Connection conn = null;
 		PreparedStatement stmtSeq = null;	// select
@@ -83,6 +80,72 @@ public class GoodsDao {
 				e.printStackTrace();
 			}
 		}
+		
+		return result;
+	}
+	
+	public List<Goods> SelectGoodsList(int beginRow, int rowPerPage) throws SQLException {
+		Connection conn = null;
+		PreparedStatement stmt = null;	// insert
+		ResultSet rs = null;
+		
+		String sql = """
+					SELECT goods_code, goods_name, goods_price, soldout, emp_code, point_rate, createdate 
+					FROM goods
+					OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
+				""";
+		conn = DBConnection.getConn();
+		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, beginRow);
+		stmt.setInt(2, rowPerPage);
+		rs = stmt.executeQuery();
+		
+		List<Goods> list = new ArrayList<>();
+		while(rs.next()) {
+			Goods g = new Goods();
+			g.setGoodsCode(rs.getInt("goods_code"));
+			g.setGoodsName(rs.getString("goods_name"));
+			g.setGoodsPrice(rs.getInt("goods_price"));
+			g.setSoldout(rs.getString("soldout"));
+			g.setEmpCode(rs.getInt("emp_code"));
+			g.setPointRate(rs.getDouble("point_rate"));
+			g.setCreatdate(rs.getString("createdate"));
+			list.add(g);
+		}
+		
+		return list;
+	}
+	
+	// 총 제품 수 확인
+	public int EmpTotalCount() throws SQLException {
+		Connection conn = DBConnection.getConn();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql = """
+				SELECT COUNT(emp_code) FROM emp
+			""";
+		stmt = conn.prepareStatement(sql);
+		rs = stmt.executeQuery();
+		int cnt = 0;
+		if(rs.next()) {
+			cnt = rs.getInt(1);
+		}
+		return cnt;
+	}
+	
+	// 제품 soldout 변경
+	public boolean ModifyEmpActive(int empCode) throws SQLException {
+		Connection conn = DBConnection.getConn();
+		PreparedStatement selectStmt = null;
+		PreparedStatement updateStmt = null;
+		ResultSet rs = null;
+		Boolean result = false;
+		String selectSql = """
+				SELECT active FROM emp WHERE emp_code = ?
+			""";
+		String updateSql = """
+				UPDATE emp SET active = ? WHERE emp_code = ?
+			""";
 		
 		return result;
 	}

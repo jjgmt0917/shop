@@ -7,7 +7,7 @@ public class Goods {
 	private String soldout;
 	private int empCode;
 	private Double pointRate;
-	private String creatdate;
+	private String createdate;
 	public int getGoodsCode() {
 		return goodsCode;
 	}
@@ -44,16 +44,16 @@ public class Goods {
 	public void setPointRate(Double pointRate) {
 		this.pointRate = pointRate;
 	}
-	public String getCreatdate() {
-		return creatdate;
+	public String getCreatedate() {
+		return createdate;
 	}
-	public void setCreatdate(String creatdate) {
-		this.creatdate = creatdate;
+	public void setCreatdate(String createdate) {
+		this.createdate = createdate;
 	}
 	@Override
 	public String toString() {
 		return "Goods [goodsCode=" + goodsCode + ", goodsName=" + goodsName + ", goodsPrice=" + goodsPrice
-				+ ", soldout=" + soldout + ", empCode=" + empCode + ", pointRate=" + pointRate + ", creatdate="
-				+ creatdate + "]";
+				+ ", soldout=" + soldout + ", empCode=" + empCode + ", pointRate=" + pointRate + ", createdate="
+				+ createdate + "]";
 	}
 }

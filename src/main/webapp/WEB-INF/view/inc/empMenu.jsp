@@ -5,7 +5,8 @@
         <ul class="nav-menu">
             <li><a href="${pageContext.request.contextPath}/emp/goodsList">상품목록</a></li>
             <li><a href="${pageContext.request.contextPath}/emp/customerList">고객목록</a></li>
-            <li><a href="${pageContext.request.contextPath}/emp/orderList">주문목록</a></li>
+            <li><a href="${pageContext.request.contextPath}/emp/outid">탈퇴ID관리</a></li>
+            <li><a href="${pageContext.request.contextPath}/emp/ordersList">주문목록</a></li>
             <li><a href="${pageContext.request.contextPath}/emp/noticeList">공지사항</a></li>
             <li><a href="${pageContext.request.contextPath}/emp/empList">직원목록</a></li>
             <li><a href="${pageContext.request.contextPath}/emp/myInfo">내정보</a></li>

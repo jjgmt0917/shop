@@ -6,13 +6,12 @@
 	<meta charset="UTF-8">
 	<title>shop</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+	<link href="${pageContext.request.contextPath}/css/common.css" rel="stylesheet">
 </head>
 <body>
-	<h1>customerIndex</h1>
-	<div>
-		${loginCustomer.customerName}님 반갑습니다.
-		(point : ${loginCustomer.customerPoint})
-		<a href="${pageContext.request.contextPath}/customer/customerLogout">로그아웃</a>
-	</div>
+	<c:import url="/WEB-INF/view/inc/customerMenu.jsp"></c:import>
+	<h1>empIndex</h1>
 </body>
 </html>

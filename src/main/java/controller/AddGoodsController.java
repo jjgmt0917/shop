@@ -17,7 +17,7 @@ import java.util.UUID;
 import dto.*;
 import dao.*;
 
-@WebServlet("emp/addGoods")
+@WebServlet("/emp/addGoods")
 public class AddGoodsController extends HttpServlet {
 	private GoodsDao goodsDao;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -76,7 +76,7 @@ public class AddGoodsController extends HttpServlet {
 		// 1) 상품등록 후 키값 반환 
 		// https://cafe.naver.com/jjdev/18456
 		// 2) 1번의 키값으로 이미지를 등록
-		boolean result = goodsDao.insertGoodsAndImg(goods, goodsImg);
+		boolean result = goodsDao.InsertGoodsAndImg(goods, goodsImg);
 		// db입력 실패시 업로드된 이미지 삭제
 		if(result == false) {	// if(!result)
 			// 저장된 이미지(File saveFile = new File(realPath, filename)) 삭제
