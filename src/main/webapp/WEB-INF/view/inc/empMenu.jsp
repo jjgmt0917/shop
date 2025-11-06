@@ -3,8 +3,7 @@
 <nav class="top-nav">
     <div class="nav-container">
         <ul class="nav-menu">
-            <li><a href="${pageContext.request.contextPath}/emp/productList">상품목록</a></li>
-            <li><a href="${pageContext.request.contextPath}/emp/productManage">상품관리</a></li>
+            <li><a href="${pageContext.request.contextPath}/emp/goodsList">상품목록</a></li>
             <li><a href="${pageContext.request.contextPath}/emp/customerList">고객목록</a></li>
             <li><a href="${pageContext.request.contextPath}/emp/orderList">주문목록</a></li>
             <li><a href="${pageContext.request.contextPath}/emp/noticeList">공지사항</a></li>

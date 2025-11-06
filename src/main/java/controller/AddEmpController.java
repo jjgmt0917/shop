@@ -45,5 +45,4 @@ public class AddEmpController extends HttpServlet {
 			response.sendRedirect(request.getContextPath() + "/emp/addEmp");
 		}
 	}
-
 }
