@@ -8,8 +8,8 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-	<link href="${pageContext.request.contextPath}/css/list.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath}/css/common.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/css/list.css" rel="stylesheet">
 	<style>
 		.main-container {
 			max-width: 1400px;
@@ -131,18 +131,19 @@
 					<c:forEach var="n" items="${list}">
 						<tr>
 							<td>${n.noticeCode}</td>
-							<td><a href="${pageContext.request.contextPath}/emp/noticeOne">${n.noticeTitle}</a></td>
+							<td><a href="${pageContext.request.contextPath}/emp/noticeOne?noticeCode=${n.noticeCode}">${n.noticeTitle}</a></td>
 							<td>${n.empCode}</td>
 							<td>${n.createdate}</td>
 							<td>
 								<a href="${pageContext.request.contextPath}/emp/modifyNotice?noticeCode=${n.noticeCode}"
-								   class="status-btn">
+								   class="list-btn-edit">
 									수정
 								</a>
-								<a href="${pageContext.request.contextPath}/emp/removeNotice?noticeCode=${n.noticeCode}"
-								   class="status-btn">
-									삭제
-								</a>
+								<a href="${pageContext.request.contextPath}/emp/removeNotice?noticeCode=${n.noticeCode}" 
+					               class="list-btn-delete"
+					               onclick="return confirm('정말 삭제하시겠습니까?');">
+					               삭제
+					            </a>
 							</td>
 						</tr>
 					</c:forEach>
@@ -171,39 +172,6 @@
 		</div>
 	</div>
 </body>
-<!-- 
 <script>
-	$('.status-btn').click((e) => {
-		e.preventDefault();
-		
-		let empCode = $(e.currentTarget).data('emp-code');
-		let btn = $(e.currentTarget);
-		
-		$.ajax({
-			url: '/shop/restapi/modifyEmpActive',
-			type: 'post',
-			data: {
-				empCode: empCode,
-			},
-			dataType: 'json',
-			success: function(response) {
-				// 버튼 상태 변경
-				if(response.newActive == 1) {
-					btn.text('활성화').removeClass('status-btn').addClass('status-btn active');
-					alert('활성화되었습니다.');
-				} else if(response.newActive == 0) {
-					btn.text('비활성화').removeClass('active');
-                   	alert('비활성화되었습니다.');
-				} else {
-					alert('상태 변경에 실패했습니다.');
-				}
-			},
-			error: function() {
-				console.log('empCode: ' + empCode);
-                alert('오류가 발생했습니다.');
-            }
-		});
-	});
 </script>
- -->
 </html>

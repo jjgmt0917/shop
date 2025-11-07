@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
+import java.util.*;
 import dao.NoticeDao;
 
 @WebServlet("/emp/noticeOne")
@@ -15,6 +15,9 @@ public class NoticeOneController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int noticeCode = Integer.parseInt(request.getParameter("noticeCode"));
 		noticeDao = new NoticeDao();
+		Map<String, Object> notice = noticeDao.selectNoticeOne(noticeCode);
+		
+		request.setAttribute("notice", notice);
 		request.getRequestDispatcher("/WEB-INF/view/emp/noticeOne.jsp").forward(request, response);
 	}
 }

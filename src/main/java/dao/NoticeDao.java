@@ -84,10 +84,16 @@ public class NoticeDao {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		String sql = """
-					
+					INSERT INTO notice(notice_code, notice_title, notice_content, emp_code, createdate)
+					VALUES(seq_notice.nextval, ?, ?, ?, sysdate)
 				""";
 		try {
-			
+			conn = DBConnection.getConn();
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, n.getNoticeTitle());
+			stmt.setString(2, n.getNoticeContent());
+			stmt.setInt(3, n.getEmpCode());
+			row = stmt.executeUpdate();
 		} catch(Exception e) {
 //			conn.rollback();
 			e.printStackTrace();
@@ -109,7 +115,7 @@ public class NoticeDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		String sql = """
-					SELECT n.notice_code code, n.notice_title title, n.notice_content content, e.emp_name empName, n.createdate createdate
+					SELECT n.notice_code code, n.notice_title title, n.notice_content content, e.emp_name writer, n.createdate createdate
 					FROM notice n INNER JOIN emp e ON n.emp_code = e.emp_code
 					WHERE n.notice_code = ?
 				""";
@@ -123,7 +129,7 @@ public class NoticeDao {
 				m.put("code", rs.getInt("code"));
 				m.put("title", rs.getString("title"));
 				m.put("content", rs.getString("content"));
-				m.put("empName", rs.getString("empName"));
+				m.put("writer", rs.getString("writer"));
 				m.put("createdate", rs.getString("createdate"));
 			}
 		} catch(Exception e) {
@@ -136,14 +142,67 @@ public class NoticeDao {
 			} catch (Exception e2) {
 				e2.printStackTrace();
 			}
-			
 		}
-		
 		return m;
-		
 	}
 	
 	// modify
+	public int updateNotice(Notice n) {
+		int row = 0;
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		String sql = """
+					UPDATE notice SET notice_title = ?, notice_content = ?, emp_code = ?
+					WHERE notice_code = ?
+				""";
+		try {
+			conn = DBConnection.getConn();
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, n.getNoticeTitle());
+			stmt.setString(2, n.getNoticeContent());
+			stmt.setInt(3, n.getEmpCode());
+			stmt.setInt(4, n.getNoticeCode());
+			row = stmt.executeUpdate();
+		} catch(Exception e) {
+//			conn.rollback();
+			e.printStackTrace();
+		} finally {
+			try {
+				if (stmt != null) stmt.close();
+				if (conn != null) conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+			
+		}
+		return row;
+	}
 	
 	// delete
+	public int deleteNotice(int code) {
+		int row = 0;
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		String sql = """
+					DELETE FROM notice WHERE notice_code = ?
+				""";
+		try {
+			conn = DBConnection.getConn();
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, code);
+			row = stmt.executeUpdate();
+		} catch(Exception e) {
+//			conn.rollback();
+			e.printStackTrace();
+		} finally {
+			try {
+				if (stmt != null) stmt.close();
+				if (conn != null) conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+			
+		}
+		return row;
+	}
 }
