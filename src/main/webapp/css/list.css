@@ -99,3 +99,29 @@
 .status-btn.active:hover {
     background-color: #218838;
 }
+.pagination {
+	display: flex;
+	justify-content: center;
+	gap: 5px;
+	margin-top: 30px;
+}
+
+.pagination a,
+.pagination span {
+	padding: 8px 12px;
+	text-decoration: none;
+	color: #333;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	font-size: 14px;
+}
+
+.pagination a:hover {
+	background-color: #f8f9fa;
+}
+
+.pagination .active {
+	background-color: #000;
+	color: white;
+	border-color: #000;
+}
