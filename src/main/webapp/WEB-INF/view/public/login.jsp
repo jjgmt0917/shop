@@ -119,17 +119,17 @@
         <form method="post" id="loginForm" action="${pageContext.request.contextPath}/public/login">
             <div class="user-type-section">
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="customerOrEmpSel" id="customerSel" value="customer">
+                    <input class="form-check-input" type="radio" name="customerOrEmpSel" id="customerSel" value="customer" checked>
                     <label class="form-check-label" for="customerSel">Customer</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="customerOrEmpSel" id="empSel" value="emp" checked>
+                    <input class="form-check-input" type="radio" name="customerOrEmpSel" id="empSel" value="emp">
                     <label class="form-check-label" for="empSel">Employee</label>
                 </div>
             </div>
 
             <div class="mb-3">
-                <input type="text" class="form-control" name="id" id="id" placeholder="아이디를 입력하세요" value="emp01" required>
+                <input type="text" class="form-control" name="id" id="id" placeholder="아이디를 입력하세요" value="user01" required>
             </div>
 
             <div class="mb-4">

@@ -35,12 +35,7 @@ public class GoodsListController extends HttpServlet {
 		lastPage = totalGoods / rowPerPage + (totalGoods % rowPerPage == 0 ? 0 : 1);
 		
 		List<Goods> list = null;
-		try {
-			list = goodsDao.SelectGoodsList(beginRow, rowPerPage);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		list = goodsDao.SelectGoodsList(beginRow, rowPerPage);
 		
 		// 모델 속성
 				request.setAttribute("currentPage", currentPage);
