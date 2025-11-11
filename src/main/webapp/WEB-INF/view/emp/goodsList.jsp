@@ -129,19 +129,19 @@
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach var="g" items="${list}">
+					<c:forEach var="m" items="${list}">
 						<tr>
-							<td>${g.goodsCode}</td>
-							<td>${g.goodsName}</td>
-							<td>${g.goodsPrice}</td>
+							<td>${m.goodsCode}</td>
+							<td>${m.goodsName}</td>
+							<td>${m.goodsPrice}</td>
 							<td>
-								<a href="${pageContext.request.contextPath}/emp/modifyGoodsSoldout?goodsCode=${g.goodsCode}"
-								   class="status-btn ${g.soldout == 'N' ? '' : 'active'}" 
-								   data-goods-code="${g.goodsCode}">
-									${g.soldout == 'N' ? 'SOLD OUT' : '판매중'}
+								<a href="${pageContext.request.contextPath}/emp/modifyGoodsSoldout?goodsCode=${m.goodsCode}"
+								   class="status-btn ${m.soldout == 'soldout' ? '' : 'active'}" 
+								   data-goods-code="${m.goodsCode}">
+									${m.soldout == 'soldout' ? 'SOLD OUT' : '판매중'}
 								</a>
 							</td>
-							<td>${g.createdate}</td>
+							<td>${m.createdate}</td>
 							<td></td>
 						</tr>
 					</c:forEach>
@@ -179,7 +179,7 @@
 				if(response.newSoldout == null) {
 					alert('판매시작합니다.');
 					btn.text('판매중').removeClass('status-btn').addClass('status-btn active');
-				} else if(response.newSoldOut == "N") {
+				} else if(response.newSoldOut == "soldout") {
                    	alert('재고가 소진되었습니다.');
 					btn.text('SOLDOUT').removeClass('active');
 				} else {

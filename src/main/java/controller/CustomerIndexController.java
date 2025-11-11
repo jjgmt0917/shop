@@ -22,11 +22,11 @@ public class CustomerIndexController extends HttpServlet {
 		int beginRow = (1-currentPage) * rowPerPage;
 		
 		goodsDao = new GoodsDao();
-		request.setAttribute("goodsList", goodsDao.selectGoodsListForCust(beginRow, rowPerPage));
+		request.setAttribute("goodsList", goodsDao.selectGoodsList(beginRow, rowPerPage));
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("bestGoodsList", goodsDao.bestGoodsList());
 		
-		int totalTd = 10;
+//		int totalTd = 10;
 		// 만약 페이지(첫번째 or 마지막)에 출력할 상품이 7개다 -> totalTd = 10;
 		
 		request.getRequestDispatcher("/WEB-INF/view/customer/customerIndex.jsp").forward(request, response);

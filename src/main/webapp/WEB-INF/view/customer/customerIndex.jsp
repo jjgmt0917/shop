@@ -22,7 +22,7 @@
 		<table width="80%">
 			<tr>
 				<!-- c:forEach varStatus : index(0~), count(1~), first(true/false), last(true/false) -->
-				<c:forEach var="m" items="${goodsList}" varState="state">
+				<c:forEach var="m" items="${goodsList}" varStatus="state">
 					<td>
 						<!-- image -->
 						<div>
@@ -30,7 +30,7 @@
 						</div>
 						<!-- 이름, 가격 -->
 						<div>
-							${m.goodsName}<br>
+							<a href="${pageContext.request.contextPath}/customer/goodsOne?goodsCode=${m.goodsCode}">${m.goodsName}</a><br>
 							${m.goodsPrice}
 						</div>
 					</td>

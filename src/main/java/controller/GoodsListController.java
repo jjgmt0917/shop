@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.*;
 
 import dto.*;
 import dao.*;
@@ -34,8 +34,8 @@ public class GoodsListController extends HttpServlet {
 		}
 		lastPage = totalGoods / rowPerPage + (totalGoods % rowPerPage == 0 ? 0 : 1);
 		
-		List<Goods> list = null;
-		list = goodsDao.SelectGoodsList(beginRow, rowPerPage);
+		List<Map<String, Object>> list = null;
+		list = goodsDao.selectGoodsList(beginRow, rowPerPage);
 		
 		// 모델 속성
 				request.setAttribute("currentPage", currentPage);

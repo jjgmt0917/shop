@@ -5,6 +5,48 @@ import java.util.*;
 import dto.*;
 
 public class GoodsDao {
+	public Map<String, Object> selectGoodsOne(int goodsCode) {
+		Map<String, Object> m = new HashMap<>();
+		Connection conn = null;
+		PreparedStatement stmt = null;	// insert
+		ResultSet rs = null;
+		
+		String sql = """
+					select gi.filename filename, g.goods_code goodsCode, g.goods_name goodsName
+							, g.goods_price goodsPrice, nvl(g.soldout, ' ') soldout, g.point_rate pointRate
+					FROM goods g INNER JOIN goods_img gi ON g.goods_code = gi.goods_code
+					WHERE g.goods_code = ?
+				""";
+		try {
+			conn = DBConnection.getConn();
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, goodsCode);
+			rs = stmt.executeQuery();
+			
+			while(rs.next()) {
+				m.put("filename",rs.getString("filename"));
+				m.put("goodsCode",rs.getInt("goodsCode"));
+				m.put("goodsName",rs.getString("goodsName"));
+				m.put("goodsPrice",rs.getInt("goodsPrice"));
+				m.put("soldout",rs.getString("soldout"));
+				m.put("pointRate",rs.getDouble("pointRate"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null) rs.close();
+				if(stmt != null) stmt.close();
+				if(conn != null) conn.close();
+			} catch(SQLException e2) {
+				e2.printStackTrace();
+			}
+		}
+		
+		
+		return m;
+	}
 	// 상품등록 + 이미지등록
 	// 반환값은 실패시 false
 	public boolean InsertGoodsAndImg(Goods g, GoodsImg gi) {
@@ -83,53 +125,7 @@ public class GoodsDao {
 		
 		return result;
 	}
-	
-	public List<Goods> SelectGoodsList(int beginRow, int rowPerPage) {
-		List<Goods> list = new ArrayList<>();
-		Connection conn = null;
-		PreparedStatement stmt = null;	// insert
-		ResultSet rs = null;
-		
-		String sql = """
-					SELECT goods_code, goods_name, goods_price, soldout, emp_code, point_rate, createdate 
-					FROM goods
-					OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
-				""";
-		try {
-			conn = DBConnection.getConn();
-			stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, beginRow);
-			stmt.setInt(2, rowPerPage);
-			rs = stmt.executeQuery();
-			
-			while(rs.next()) {
-				Goods g = new Goods();
-				g.setGoodsCode(rs.getInt("goods_code"));
-				g.setGoodsName(rs.getString("goods_name"));
-				g.setGoodsPrice(rs.getInt("goods_price"));
-				g.setSoldout(rs.getString("soldout"));
-				g.setEmpCode(rs.getInt("emp_code"));
-				g.setPointRate(rs.getDouble("point_rate"));
-				g.setCreatdate(rs.getString("createdate"));
-				list.add(g);
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			try {
-				if(rs != null) rs.close();
-				if(stmt != null) stmt.close();
-				if(conn != null) conn.close();
-			} catch(SQLException e2) {
-				e2.printStackTrace();
-			}
-		}
-		
-		return list;
-	}
-	
-	public List<Map<String, Object>> selectGoodsListForCust(int beginRow, int rowPerPage) {
+	public List<Map<String, Object>> selectGoodsList(int beginRow, int rowPerPage) {
 		List<Map<String, Object>> list = new ArrayList<>();
 		Connection conn = null;
 		PreparedStatement stmt = null;	// insert
@@ -185,12 +181,12 @@ public class GoodsDao {
 		ResultSet rs = null;
 		
 		String sql = """
-					select gi.filename filename, g.goods_code goodsCode, g.goods_name goodsName
-							, g.goods_price goodsPrice,
-					FROM goods g inner join goods_img gi on g.goods_code = gi.goods_code
-					where g.soldout is null
-					order by g.goods_code desc
-					OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
+					SELECT gi.filename filename, g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice,
+					FROM goods g INNER JOIN goods_img gi ON g.goods_code = gi.goods_code
+						INNER JOIN(SELECT goods_code, COUNT(*) FROM orders GROUP BY goods_code
+									ORDER BY COUNT(*) DESC OFFSET 0 ROWS FETCH NEXT 5 ROWS ONLY) t
+						ON g.goods_code = t.goods_code
+					
 				""";
 		try {
 			conn = DBConnection.getConn();
@@ -203,9 +199,6 @@ public class GoodsDao {
 				m.put("goodsCode",rs.getInt("goodsCode"));
 				m.put("goodsName",rs.getString("goodsName"));
 				m.put("goodsPrice",rs.getInt("goodsPrice"));
-				m.put("soldout",rs.getString("soldout"));
-				m.put("empCode",rs.getInt("empCode"));
-				m.put("pointRate",rs.getDouble("pointRate"));
 				list.add(m);
 			}
 		} catch (SQLException e) {
