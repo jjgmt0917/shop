@@ -1,7 +1,7 @@
 package dao;
 
 import java.sql.*;
-
+import java.util.*;
 import dto.*;
 
 public class CustomerDao {
@@ -71,5 +71,61 @@ public class CustomerDao {
 		stmt.setString(4, cust.getCustomerPhone());
 		
 		return stmt.executeUpdate();
+	}
+	
+	// 직원에 의한 강퇴
+	public void deleteCustByEmp(Outid outid) {
+		Connection conn = null;
+		PreparedStatement custStmt = null;
+		PreparedStatement outidStmt = null;
+		String custSql = """
+					delete from customer where customer_id = ?
+				""";
+		String outidSql = """
+					insert into outid(id, memo, createdate)
+					values(?, ?, ?)
+				""";
+		
+		// JDBC Connection의 기본 Commit설정값 auto commit = true : false 변경 후 transaction 적용
+		try {
+			conn = DBConnection.getConn();
+			conn.setAutoCommit(false);	// 개발자가 commit / rollback 직접 구현이 필요
+			custStmt = conn.prepareStatement(custSql);
+			
+			// param 설정 ? : outid.getId()
+			
+			int row = custStmt.executeUpdate();	// customer 삭제
+			if(row == 1) {
+				outidStmt = conn.prepareStatement(outidSql);
+				
+				// param 설정 : ? outid.getId() ? outid.getMemo() ? sysdate
+				
+				outidStmt.executeUpdate();	// outid 입력
+				
+			} else {
+				throw new SQLException();
+			}
+			conn.commit();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				custStmt.close();
+				outidStmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	// 전체 고객 리스트 확인
+	public List<Customer> selectCustList(int beginRow, int rowperPage) {
+		List<Customer> list = new ArrayList<>();
+		
+		return list;
 	}
 }
