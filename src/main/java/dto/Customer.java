@@ -6,8 +6,15 @@ public class Customer {
 	private String customerPw;
 	private String customerName;
 	private String customerPhone;
-	private int customerPoint;
+	private int point;
+	private String gender;
 	private String createdate;
+	@Override
+	public String toString() {
+		return "Customer [customerCode=" + customerCode + ", customerId=" + customerId + ", customerPw=" + customerPw
+				+ ", customerName=" + customerName + ", customerPhone=" + customerPhone + ", point=" + point
+				+ ", gender=" + gender + ", createdate=" + createdate + "]";
+	}
 	public int getCustomerCode() {
 		return customerCode;
 	}
@@ -38,11 +45,17 @@ public class Customer {
 	public void setCustomerPhone(String customerPhone) {
 		this.customerPhone = customerPhone;
 	}
-	public int getCustomerPoint() {
-		return customerPoint;
+	public int getPoint() {
+		return point;
 	}
-	public void setCustomerPoint(int customerPoint) {
-		this.customerPoint = customerPoint;
+	public void setPoint(int point) {
+		this.point = point;
+	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 	public String getCreatedate() {
 		return createdate;
@@ -50,10 +63,5 @@ public class Customer {
 	public void setCreatedate(String createdate) {
 		this.createdate = createdate;
 	}
-	@Override
-	public String toString() {
-		return "Customer [customerCode=" + customerCode + ", customerId=" + customerId + ", customerPw=" + customerPw
-				+ ", customerName=" + customerName + ", customerPhone=" + customerPhone + ", customerPoint="
-				+ customerPoint + ", createdate=" + createdate + "]";
-	}
+	
 }

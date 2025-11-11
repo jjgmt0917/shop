@@ -14,7 +14,7 @@
             	/ 비밀번호 수정() - 트랜잭션 costomer 비밀번호 수정 + pw_history에 비밀번호 입력(6개가 되었다. 가장 빠른 데이터는 삭제)
             	/ 회원탈퇴() - 트랜잭션 : outid 입력 + customer 삭제
             -->
-            <li><a href="${pageContext.request.contextPath}/customer/customerInfo">내정보</a></li>
+            <li><a href="${pageContext.request.contextPath}/customer/customerInfo?customerId=${loginCustomer.customerId}">내정보</a></li>
         </ul>
         <div class="nav-right">
             <span class="user-info">${loginCustomer.customerName}님</span>

@@ -9,6 +9,7 @@
             <li><a href="${pageContext.request.contextPath}/emp/ordersList">주문목록</a></li>
             <li><a href="${pageContext.request.contextPath}/emp/noticeList">공지사항</a></li>
             <li><a href="${pageContext.request.contextPath}/emp/empList">직원목록</a></li>
+            <li><a href="${pageContext.request.contextPath}/emp/stats">매출관리</a></li><!-- AJax -->
             <li><a href="${pageContext.request.contextPath}/emp/myInfo">내정보</a></li>
         </ul>
         <div class="nav-right">

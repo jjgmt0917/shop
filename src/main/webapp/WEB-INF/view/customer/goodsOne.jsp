@@ -256,8 +256,9 @@
 					</div>
 				</div>
 				
-				<c:if test="${goods.soldout != 'Y'}">
+				<c:if test="${goods.soldout != 'soldout'}">
 					<form id="orderForm">
+						<!-- id="contextPath" -->
 						<!-- 수량 선택 -->
 						<div class="quantity-section">
 							<div class="quantity-label">수량</div>
@@ -276,13 +277,13 @@
 						
 						<!-- 버튼 -->
 						<div class="button-group">
-							<button type="button" class="btn-cart" onclick="addToCart()">장바구니</button>
-							<button type="button" class="btn-order" onclick="buyNow()">바로구매</button>
+							<button type="button" id="cartBtn" class="btn-cart">장바구니</button>
+							<button type="button" id="orderBtn" class="btn-order">바로구매</button>
 						</div>
 					</form>
 				</c:if>
 				
-				<c:if test="${goods.soldout == 'Y'}">
+				<c:if test="${goods.soldout == 'soldout'}">
 					<div class="total-price-section">
 						<span style="color: #c62828; font-weight: 600;">현재 품절된 상품입니다.</span>
 					</div>
@@ -301,34 +302,24 @@
 		$('#totalPrice').text(totalPrice.toLocaleString() + '원');
 	});
 	
-	// 장바구니 추가
-	function addToCart() {
-		let quantity = $('#quantity').val();
-		
-		if(confirm('장바구니에 담으시겠습니까?')) {
-			$.ajax({
-				url: '${pageContext.request.contextPath}/customer/addCart',
-				type: 'post',
-				data: {
-					goodsCode: '${goods.goodsCode}',
-					quantity: quantity
-				},
-				success: function(response) {
-					if(confirm('장바구니에 담았습니다.\n장바구니로 이동하시겠습니까?')) {
-						location.href = '${pageContext.request.contextPath}/customer/cartList';
-					}
-				},
-				error: function() {
-					alert('장바구니 담기에 실패했습니다.');
-				}
-			});
+	// 장바구니
+	$('#cartBtn').click(function(){
+		if(confirm('장바구니에 담으시겟습니까?')){
+			$('#orderForm').attr('method', 'post');
+			$('#orderForm').attr('action', $('#contextPath') + '/customer/insertOrders');
 		}
-	}
+		
+	});
 	
 	// 바로 구매
-	function buyNow() {
-		const quantity = $('#quantity').val();
-		location.href = '${pageContext.request.contextPath}/customer/orderPage?goodsCode=${goods.goodsCode}&quantity=' + quantity;
-	}
+	$('#orderBtn').click(function(){
+		if(confirm('바로 구매하시겠습니까?')){
+			$('#orderForm').attr('method', 'get');
+			$('#orderForm').attr('action', $('#contextPath') + '/customer/insertOrders');
+		}
+		
+	});
+/*
+*/
 </script>
 </html>

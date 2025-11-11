@@ -12,7 +12,7 @@ public class GoodsDao {
 		ResultSet rs = null;
 		
 		String sql = """
-					select gi.filename filename, g.goods_code goodsCode, g.goods_name goodsName
+					SELECT gi.filename filename, g.goods_code goodsCode, g.goods_name goodsName
 							, g.goods_price goodsPrice, nvl(g.soldout, ' ') soldout, g.point_rate pointRate
 					FROM goods g INNER JOIN goods_img gi ON g.goods_code = gi.goods_code
 					WHERE g.goods_code = ?
@@ -134,9 +134,8 @@ public class GoodsDao {
 		String sql = """
 					select gi.filename filename, g.goods_code goodsCode, g.goods_name goodsName
 							, g.goods_price goodsPrice, g.soldout soldout, g.emp_code empCode
-							, g.point_rate pointRate
+							, g.point_rate pointRate, g.createdate createdate
 					FROM goods g inner join goods_img gi on g.goods_code = gi.goods_code
-					where g.soldout is null
 					order by g.goods_code desc
 					OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
 				""";
@@ -156,6 +155,7 @@ public class GoodsDao {
 				m.put("soldout",rs.getString("soldout"));
 				m.put("empCode",rs.getInt("empCode"));
 				m.put("pointRate",rs.getDouble("pointRate"));
+				m.put("createdate",rs.getString("createdate"));
 				list.add(m);
 			}
 		} catch (SQLException e) {

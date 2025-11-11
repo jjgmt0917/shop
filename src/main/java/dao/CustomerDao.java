@@ -28,7 +28,7 @@ public class CustomerDao {
 			loginCustomer.setCustomerPw(rs.getString("customer_pw"));
 			loginCustomer.setCustomerName(rs.getString("customer_name"));
 			loginCustomer.setCustomerPhone(rs.getString("customer_phone"));
-			loginCustomer.setCustomerPoint(rs.getInt("customer_point"));
+			loginCustomer.setPoint(rs.getInt("customer_point"));
 		}
 		return loginCustomer;
 	}
