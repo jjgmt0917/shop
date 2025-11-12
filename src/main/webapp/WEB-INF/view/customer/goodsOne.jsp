@@ -258,7 +258,8 @@
 				
 				<c:if test="${goods.soldout != 'soldout'}">
 					<form id="orderForm">
-						<!-- id="contextPath" -->
+						<input type="hidden" value="${pageContext.request.contextPath}" id="contextPath">
+						<input type="hidden" name="goodsCode" value="${goods.goodsCode}">
 						<!-- 수량 선택 -->
 						<div class="quantity-section">
 							<div class="quantity-label">수량</div>
@@ -306,7 +307,7 @@
 	$('#cartBtn').click(function(){
 		if(confirm('장바구니에 담으시겟습니까?')){
 			$('#orderForm').attr('method', 'post');
-			$('#orderForm').attr('action', $('#contextPath') + '/customer/insertOrders');
+			$('#orderForm').attr('action', $('#contextPath').val() + '/customer/addCart');
 		}
 		
 	});
@@ -315,7 +316,7 @@
 	$('#orderBtn').click(function(){
 		if(confirm('바로 구매하시겠습니까?')){
 			$('#orderForm').attr('method', 'get');
-			$('#orderForm').attr('action', $('#contextPath') + '/customer/insertOrders');
+			$('#orderForm').attr('action', $('#contextPath').val() + '/customer/addOrders');
 		}
 		
 	});

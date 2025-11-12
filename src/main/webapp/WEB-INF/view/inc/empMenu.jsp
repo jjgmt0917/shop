@@ -7,7 +7,17 @@
             <li><a href="${pageContext.request.contextPath}/emp/customerList">고객목록</a></li>
             <li><a href="${pageContext.request.contextPath}/emp/outid">탈퇴ID관리</a></li>
             <li><a href="${pageContext.request.contextPath}/emp/ordersList">주문목록</a></li>
+            <li><a href="${pageContext.request.contextPath}/emp/ordersList">리뷰관리</a></li>
+            <!-- 
+            		select * from review order by order_code desc -- X orders X goods X customer + score에 오름차순 / 내림차순
+             -->
             <li><a href="${pageContext.request.contextPath}/emp/noticeList">공지사항</a></li>
+            <li><a href="${pageContext.request.contextPath}/emp/QAnA">Q&A</a></li>
+            <!-- 
+            		(select q.*, qc.comment_code, nvl(qc.comment_memo, '답변하기') memo
+					from question q left outer join question_comment qc
+					on q.question_code = qc.question_code) -- X order X goods
+             -->
             <li><a href="${pageContext.request.contextPath}/emp/empList">직원목록</a></li>
             <li><a href="${pageContext.request.contextPath}/emp/stats">매출관리</a></li><!-- AJax -->
             <li><a href="${pageContext.request.contextPath}/emp/myInfo">내정보</a></li>

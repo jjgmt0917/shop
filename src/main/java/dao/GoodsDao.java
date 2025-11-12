@@ -181,9 +181,9 @@ public class GoodsDao {
 		ResultSet rs = null;
 		
 		String sql = """
-					SELECT gi.filename filename, g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice,
+					SELECT gi.filename filename, g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice
 					FROM goods g INNER JOIN goods_img gi ON g.goods_code = gi.goods_code
-						INNER JOIN(SELECT goods_code, COUNT(*) FROM orders GROUP BY goods_code
+						INNER JOIN (SELECT goods_code, COUNT(*) FROM orders GROUP BY goods_code
 									ORDER BY COUNT(*) DESC OFFSET 0 ROWS FETCH NEXT 5 ROWS ONLY) t
 						ON g.goods_code = t.goods_code
 					
