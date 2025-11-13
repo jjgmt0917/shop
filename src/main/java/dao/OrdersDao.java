@@ -3,7 +3,9 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
+import dto.*;
 
 public class OrdersDao {
 	public List<Map<String, Object>> SelectOrdersList(int beginRow, int rowPerPage) throws Exception {
@@ -47,4 +49,32 @@ public class OrdersDao {
 		
 		return list;
 	}
+	
+	// goodsOne -> 주문완료
+	public int insertOrders(Orders o) {
+		int row = 0;
+		Connection conn =null;
+		PreparedStatement stmt = null;
+		String sql = """
+					insert into orders(
+						order_code, goods_code, customer_code, address_code, order_quantity, order_price, order_strate, createdate
+					) values(
+						seq_order.nextval, ?, ?, ?, ?, ?, '주문완료', sysdate
+					)
+				""";
+		try {
+			conn = DBConnection.getConn();
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, o.getGoodscode());
+			stmt.setInt(2, o.getCustomerCode());
+			stmt.setInt(3, o.getAddressCode());
+			stmt.setInt(4, o.getOrderQuantity());
+			stmt.setInt(5, o.getOrderPrice());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return row;
+	}
+	// cartList -> 주문완료
 }

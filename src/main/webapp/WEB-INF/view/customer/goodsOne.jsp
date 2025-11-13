@@ -295,7 +295,6 @@
 </body>
 <script>
 	const basePrice = ${goods.goodsPrice};
-	
 	// 수량 변경 시 총 가격 업데이트
 	$('#quantity').on('change', function() {
 		let quantity = $(this).val();
@@ -308,6 +307,7 @@
 		if(confirm('장바구니에 담으시겟습니까?')){
 			$('#orderForm').attr('method', 'post');
 			$('#orderForm').attr('action', $('#contextPath').val() + '/customer/addCart');
+			$('#orderForm').submit();
 		}
 		
 	});
@@ -317,6 +317,7 @@
 		if(confirm('바로 구매하시겠습니까?')){
 			$('#orderForm').attr('method', 'get');
 			$('#orderForm').attr('action', $('#contextPath').val() + '/customer/addOrders');
+			$('#orderForm').submit();
 		}
 		
 	});

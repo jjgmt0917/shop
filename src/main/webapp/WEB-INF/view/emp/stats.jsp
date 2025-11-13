@@ -9,6 +9,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0"></script>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+	<link href="${pageContext.request.contextPath}/css/common.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath}/css/nav.css" rel="stylesheet">
 	<style>
 		.main-container {
@@ -240,11 +241,19 @@
 	<script>
 		let myChart = null;
 		
+		// 차트 색상 팔레트
+		let colorSchemes = {
+			purple: ['#667eea', '#764ba2', '#f093fb', '#4facfe', '#43e97b', '#fa709a'],
+			blue: ['#4facfe', '#00f2fe', '#667eea', '#764ba2', '#43e97b', '#fa709a'],
+			gradient: ['#667eea', '#764ba2', '#f093fb', '#4facfe', '#43e97b', '#fa709a', '#feca57', '#ff6b6b', '#ee5a6f', '#c44569']
+		};
+		
 		function showChart() {
 			$('#emptyChart').hide();
 			$('#myChart').show();
 		}
 		
+		// 누적 주문량 라인 차트
 		$('#totalOrderBtn').click(function() {
 			$.ajax({
 				url : $('#contextPath').val()+'/restapi/totalOrder',
@@ -274,17 +283,38 @@
 							datasets: [{
 								label: ($('#fromYM').val()).slice(0, 4) + '년도 주문량 추이(누적)',
 							    data: y,
-							    borderColor: "#000",
-							    backgroundColor: "rgba(0, 0, 0, 0.1)",
+							    borderColor: "#667eea",
+							    backgroundColor: "rgba(102, 126, 234, 0.1)",
 							    fill: true,
-							    tension: 0.4
+							    tension: 0.4,
+							    borderWidth: 3,
+							    pointBackgroundColor: '#667eea',
+							    pointBorderColor: '#fff',
+							    pointBorderWidth: 2,
+							    pointRadius: 5,
+							    pointHoverRadius: 7
 							}]
 						},
 						options: {
 							responsive: true,
 							maintainAspectRatio: true,
 							plugins: {
-								legend: {display: true}
+								legend: {
+									display: true,
+									labels: {
+										font: {size: 14, weight: 'bold'},
+										color: '#333'
+									}
+								}
+							},
+							scales: {
+								y: {
+									beginAtZero: true,
+									grid: {color: 'rgba(0,0,0,0.05)'}
+								},
+								x: {
+									grid: {color: 'rgba(0,0,0,0.05)'}
+								}
 							}
 						}
 					});
@@ -321,17 +351,38 @@
 							datasets: [{
 								label: ($('#fromYM').val()).slice(0, 4) + '년도 총 판매 금액 추이(누적)',
 							    data: y,
-							    borderColor: "#000",
-							    backgroundColor: "rgba(0, 0, 0, 0.1)",
+							    borderColor: "#667eea",
+							    backgroundColor: "rgba(102, 126, 234, 0.1)",
 							    fill: true,
-							    tension: 0.4
+							    tension: 0.4,
+							    borderWidth: 3,
+							    pointBackgroundColor: '#667eea',
+							    pointBorderColor: '#fff',
+							    pointBorderWidth: 2,
+							    pointRadius: 5,
+							    pointHoverRadius: 7
 							}]
 						},
 						options: {
 							responsive: true,
 							maintainAspectRatio: true,
 							plugins: {
-								legend: {display: true}
+								legend: {
+									display: true,
+									labels: {
+										font: {size: 14, weight: 'bold'},
+										color: '#333'
+									}
+								}
+							},
+							scales: {
+								y: {
+									beginAtZero: true,
+									grid: {color: 'rgba(0,0,0,0.05)'}
+								},
+								x: {
+									grid: {color: 'rgba(0,0,0,0.05)'}
+								}
 							}
 						}
 					});
@@ -364,27 +415,39 @@
 					let ctx = document.getElementById('myChart');
 
 					myChart = new Chart(ctx, {
-					  type: "bar",
-					  data: {
-					    labels: xValues,
-					    datasets: [{
-					      label: '주문 횟수',
-					      backgroundColor: "#000",
-					      data: yValues
-					    }]
-					  },
-					  options: {
-					    responsive: true,
-					    maintainAspectRatio: true,
-					    plugins: {
-					      legend: {display: false},
-					      title: {
-					        display: true,
-					        text: ($('#fromYM').val()).slice(0, 4) + '년도 월별 주문횟수 추이',
-					        font: {size: 18, weight: 'bold'}
-					      }
-					    }
-					  }
+						type: "bar",
+						data: {
+							labels: xValues,
+							datasets: [{
+								label: '주문 횟수',
+								backgroundColor: colorSchemes.gradient,
+								borderColor: colorSchemes.gradient,
+								borderWidth: 2,
+								data: yValues
+							}]
+						},
+						options: {
+							responsive: true,
+							maintainAspectRatio: true,
+							plugins: {
+								legend: {display: false},
+								title: {
+									display: true,
+									text: ($('#fromYM').val()).slice(0, 4) + '년도 월별 주문횟수 추이',
+									font: {size: 18, weight: 'bold'},
+									color: '#333'
+								}
+							},
+							scales: {
+								y: {
+									beginAtZero: true,
+									grid: {color: 'rgba(0,0,0,0.05)'}
+								},
+								x: {
+									grid: {display: false}
+								}
+							}
+						}		
 					});
 				},
 			});
@@ -415,27 +478,27 @@
 					let ctx = document.getElementById('myChart');
 
 					myChart = new Chart(ctx, {
-					  type: "bar",
-					  data: {
-					    labels: xValues,
-					    datasets: [{
-					      label: '주문 금액',
-					      backgroundColor: "#000",
-					      data: yValues
-					    }]
-					  },
-					  options: {
-					    responsive: true,
-					    maintainAspectRatio: true,
-					    plugins: {
-					      legend: {display: false},
-					      title: {
-					        display: true,
-					        text: ($('#fromYM').val()).slice(0, 4) + '년도 월별 주문금액 추이',
-					        font: {size: 18, weight: 'bold'}
-					      }
-					    }
-					  }
+						type: "bar",
+						data: {
+							labels: xValues,
+							datasets: [{
+								label: '주문 금액',
+								backgroundColor: "#000",
+								data: yValues
+							}]
+						},
+						options: {
+							responsive: true,
+							maintainAspectRatio: true,
+							plugins: {
+								legend: {display: false},
+								title: {
+									display: true,
+									text: ($('#fromYM').val()).slice(0, 4) + '년도 월별 주문금액 추이',
+									font: {size: 18, weight: 'bold'}
+								}
+							}
+						}
 					});
 				},
 			});

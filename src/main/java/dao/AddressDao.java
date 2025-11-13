@@ -1,8 +1,48 @@
 package dao;
 
 import java.sql.*;
+import java.util.*;
 import dto.*;
 public class AddressDao {
+	public List<Address> selectAddressList(int customerCode) {
+		List<Address> list = new ArrayList<Address>();
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		String sal = """
+					select address_code addressCode, address
+					from address where customer_code = ?
+				""";
+		
+		try {
+			conn = DBConnection.getConn();
+			stmt = conn.prepareStatement(sal);
+			stmt.setInt(1, customerCode);
+			rs = stmt.executeQuery();
+			while(rs.next()) {
+				Address a = new Address();
+				a.setAddressCode(rs.getInt("addressCode"));
+				a.setAddress(rs.getString("address"));
+				list.add(a);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if(stmt != null) stmt.close();
+				if(rs != null) rs.close();
+				if(conn != null) conn.close();
+			} catch (SQLException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+		}
+		
+		return list;
+	}
+	
 	public void insertAddress(Address address) {
 		Connection conn = null;
 		PreparedStatement stmt1 = null;

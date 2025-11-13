@@ -138,6 +138,7 @@
 							<td>${o.address}</td>
 							<td>${o.createdate}</td>
 							<td>
+							<!-- 배송완료후 구매확정시 포인트 제공 -->
 								<a href="${pageContext.request.contextPath}/emp/modifyOrderState?orderCode=${o.orderCode}&currentState=${o.state}"
 								   class="status-btn ${o.state == '주문완료' ? 'active' : ''}" 
 								   data-order-code="${o.orderCode}">

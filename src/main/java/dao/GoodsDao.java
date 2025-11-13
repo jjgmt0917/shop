@@ -44,9 +44,9 @@ public class GoodsDao {
 			}
 		}
 		
-		
 		return m;
 	}
+	
 	// 상품등록 + 이미지등록
 	// 반환값은 실패시 false
 	public boolean InsertGoodsAndImg(Goods g, GoodsImg gi) {

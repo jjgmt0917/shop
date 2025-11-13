@@ -12,7 +12,7 @@
 </head>
 <body>
 	<c:import url="/WEB-INF/view/inc/customerMenu.jsp"></c:import>
-	<form>
+	<form method="get" action="${pageContext.request.contextPath}/customer/addOrders">
 		<table>
 			<tr>
 				<th>선택</th>
@@ -28,17 +28,19 @@
 							&nbsp;
 						</c:if>
 						<c:if test="${m.soldout != 'soldout'}">
-							<input type="checkbox" name="ck" value="${m.cartCode}">
+							<input type="checkbox" name="cartCodeList" value="${m.cartCode}">
 						</c:if>
 					</td>
 					<td>${m.goodsName}</td>
 					<td>${m.goodsPrice}</td>
-					<td>${m.goodsQuantity}</td>
+					<td>
+						${m.goodsQuantity}
+					</td>
 					<td>${m.totalPrice}</td>
 				</tr>
 			</c:forEach>
 		</table>
-		<button type="button" id="">구매하기</button>
+		<button type="submit" id="">구매하기</button>
 	</form>
 </body>
 </html>
