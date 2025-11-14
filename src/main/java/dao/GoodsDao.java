@@ -264,4 +264,113 @@ public class GoodsDao {
 		if( row == 1) return newSO;
 		else return "sql update 실패";
 	}
+	
+	// 제품 modify
+	public boolean updateGoods(Goods g, GoodsImg gi) {
+		boolean result = false;
+		Connection conn = null;
+		PreparedStatement stmtGoods = null;
+		PreparedStatement stmtImgSelect = null;
+		PreparedStatement stmtImgUpdate= null;
+		ResultSet rs = null;
+		String sqlGoods = """
+					update goods set goods_name = ?, goods_price = ?, emp_code = ?, point_rate = ?
+					where goods_code = ?
+				""";
+		String sqlImgSelect = """
+					select filename from goods_img where goods_code = ? and origin_name = ?
+				""";
+		String sqlImgUpdate = """
+					update goods_img set filename = ? where goods_code = ? and origin_name = ?
+				""";
+		try {
+			conn = DBConnection.getConn();
+			conn.setAutoCommit(false);
+			// goods입력
+			stmtGoods = conn.prepareStatement(sqlGoods);
+			stmtGoods.setString(1, g.getGoodsName());
+			stmtGoods.setInt(2, g.getGoodsPrice());
+			stmtGoods.setInt(3, g.getEmpCode());
+			stmtGoods.setDouble(4, g.getPointRate());
+			stmtGoods.setInt(5, g.getGoodsCode());
+			int row = stmtGoods.executeUpdate();
+			if(row != 1) {
+				conn.rollback();
+				throw new SQLException();
+			}
+			
+			// img file search
+			stmtImgSelect = conn.prepareStatement(sqlImgSelect);
+			stmtImgSelect.setInt(1, gi.getGoodsCode());
+			stmtImgSelect.setString(2, gi.getOriginName());
+			rs = stmtImgSelect.executeQuery();
+			if(!rs.next()) {
+				conn.rollback();
+				System.out.println("Goods Dao ================> select 실패");
+				throw new SQLException();
+			}
+			
+			// img update
+			stmtImgUpdate = conn.prepareStatement(sqlImgUpdate);
+			stmtImgUpdate.setString(1, gi.getFilename());
+			stmtImgUpdate.setInt(2, gi.getGoodsCode());
+			stmtImgUpdate.setString(3, gi.getOriginName());
+			int row2 = stmtImgUpdate.executeUpdate();
+			if(row2 != 1) {
+				conn.rollback();
+				throw new SQLException();
+			}
+			
+			result = true;	// 상품 & 이미지 입력 성공
+			conn.commit();
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				if(stmtGoods != null) stmtGoods.close();
+				if(stmtImgSelect != null) stmtImgSelect.close();
+				if(stmtImgUpdate != null) stmtImgUpdate.close();
+				if(conn != null) conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+	
+	// 제품 delete
+	public int deleteGoods(int goodsCode) {
+		int row = 0;
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		String sql = """
+					
+				""";
+		
+		try {
+			conn = DBConnection.getConn();
+			stmt = conn.prepareStatement(sql);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if(stmt != null) stmt.close();
+				if(conn != null) conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return row;
+	}
 }

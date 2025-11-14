@@ -8,88 +8,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-	<link href="${pageContext.request.contextPath}/css/list.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath}/css/common.css" rel="stylesheet">
-	<style>
-		.main-container {
-			max-width: 1400px;
-			margin: 0 auto;
-			padding: 40px 20px;
-		}
-		
-		.page-title {
-			font-size: 28px;
-			font-weight: 600;
-			color: #333;
-		}
-		
-		.search-section {
-			background-color: white;
-			border-radius: 8px;
-			padding: 20px;
-			margin-bottom: 20px;
-			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-		}
-		
-		.search-row {
-			display: flex;
-			gap: 10px;
-			align-items: center;
-		}
-		
-		.search-select {
-			padding: 8px 15px;
-			border: 1px solid #ddd;
-			border-radius: 4px;
-			font-size: 14px;
-			min-width: 120px;
-		}
-		
-		.search-input {
-			flex: 1;
-			padding: 8px 15px;
-			border: 1px solid #ddd;
-			border-radius: 4px;
-			font-size: 14px;
-		}
-		
-		.search-btn {
-			padding: 8px 30px;
-			background-color: #000;
-			color: white;
-			border: none;
-			border-radius: 4px;
-			font-size: 14px;
-			font-weight: 600;
-			cursor: pointer;
-		}
-		
-		.search-btn:hover {
-			background-color: #333;
-		}
-		.table-header {
-		    display: flex;
-		    justify-content: flex-end;
-		    margin-bottom: 15px;
-		}
-		.add-btn {
-			padding: 10px 24px;
-			background-color: #000;
-			color: white;
-			border: none;
-			border-radius: 4px;
-			font-size: 14px;
-			font-weight: 600;
-			cursor: pointer;
-			text-decoration: none;
-			display: inline-block;
-		}
-		
-		.add-btn:hover {
-			background-color: #333;
-			color: white;
-		}
-	</style>
 </head>
 <body>
 	<c:import url="/WEB-INF/view/inc/empMenu.jsp"></c:import>
@@ -147,14 +66,24 @@
 					</c:forEach>
 				</tbody>
 			</table>
-			
+
 			<!-- 페이징 -->
 			<div class="pagination">
-				<c:if test="${currentPage > 1}">
-					<a href="${pageContext.request.contextPath}/emp/goodsList?currentPage=${currentPage - 1}">&lt; 이전</a>
+				<c:if test="${currentPage > 10}">
+					<a href="${pageContext.request.contextPath}/emp/goodsList?currentPage=${currentPage - 10}">&lt; 이전</a>
 				</c:if>
-				<c:if test="${currentPage < lastPage}">
-					<a href="${pageContext.request.contextPath}/emp/goodsList?currentPage=${currentPage + 1}">다음 &gt;</a>
+				<c:forEach var="i" begin="${startPage}" end="${endPage}" step="1">
+					<a href="${pageContext.request.contextPath}/emp/goodsList?currentPage=${i}" class="${i == currentPage ? 'active' : ''}">${i}</a>
+				</c:forEach>
+				<c:if test="${endPage < lastPage}">
+					<c:choose>
+						<c:when test="${currentPage + 10 > lastPage}">
+							<a href="${pageContext.request.contextPath}/emp/goodsList?currentPage=${lastPage}">다음 &gt;</a>
+						</c:when>
+						<c:otherwise>
+							<a href="${pageContext.request.contextPath}/emp/goodsList?currentPage=${currentPage + 10}">다음 &gt;</a>
+						</c:otherwise>
+					</c:choose>
 				</c:if>
 			</div>
 		</div>

@@ -19,11 +19,12 @@ public class GoodsListController extends HttpServlet {
 		if(request.getParameter("currentPage") != null) {
 			currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		}
-		int rowPerPage = 10;
+		int rowPerPage = 20;
 		int beginRow = (currentPage - 1) * rowPerPage;
 		int lastPage = 0;
 		
 		GoodsDao goodsDao = new GoodsDao();
+		List<Map<String, Object>> list = goodsDao.selectGoodsList(beginRow, rowPerPage);
 		
 		int totalGoods = 0;
 		try {
@@ -33,15 +34,20 @@ public class GoodsListController extends HttpServlet {
 			e.printStackTrace();
 		}
 		lastPage = totalGoods / rowPerPage + (totalGoods % rowPerPage == 0 ? 0 : 1);
-		
-		List<Map<String, Object>> list = null;
-		list = goodsDao.selectGoodsList(beginRow, rowPerPage);
+		// 페이징
+		int startPage = (currentPage-1)/10*10 + 1;
+		int endPage = startPage + 9;
+		if(lastPage < endPage) {
+			endPage = lastPage;
+		}
 		
 		// 모델 속성
-				request.setAttribute("currentPage", currentPage);
-				request.setAttribute("lastPage", lastPage);
-				request.setAttribute("list", list);
-				
+		request.setAttribute("list", list);
+		request.setAttribute("currentPage", currentPage);
+		request.setAttribute("lastPage", lastPage);
+		request.setAttribute("startPage", startPage);
+		request.setAttribute("endPage", endPage);
+		
 		request.getRequestDispatcher("/WEB-INF/view/emp/goodsList.jsp").forward(request, response);
 	}
 }
