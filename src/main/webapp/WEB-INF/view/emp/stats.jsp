@@ -10,7 +10,6 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 	<link href="${pageContext.request.contextPath}/css/common.css" rel="stylesheet">
-	<link href="${pageContext.request.contextPath}/css/nav.css" rel="stylesheet">
 	<style>
 		.main-container {
 			max-width: 1400px;
@@ -19,17 +18,18 @@
 		}
 		
 		.page-title {
-			font-size: 28px;
-			font-weight: 600;
+			font-size: 32px;
+			font-weight: 700;
 			color: #333;
 			margin-bottom: 30px;
+			text-shadow: none;
 		}
 		
 		.stats-card {
 			background-color: white;
-			border-radius: 8px;
-			padding: 30px;
-			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+			border-radius: 12px;
+			padding: 35px;
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 			margin-bottom: 30px;
 		}
 		
@@ -43,31 +43,34 @@
 		}
 		
 		.date-label {
-			font-weight: 500;
-			color: #333;
-			font-size: 14px;
+			font-weight: 600;
+			color: #4a5568;
+			font-size: 15px;
 		}
 		
 		.date-input {
 			padding: 10px 15px;
-			border: 1px solid #ddd;
-			border-radius: 4px;
+			border: 2px solid #e2e8f0;
+			border-radius: 6px;
 			font-size: 14px;
-			color: #333;
+			color: #2d3748;
+			transition: all 0.3s;
 		}
 		
 		.date-input:focus {
 			outline: none;
-			border-color: #999;
+			border-color: #667eea;
+			box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 		}
 		
 		.section-title {
 			font-size: 18px;
 			font-weight: 600;
-			color: #333;
+			color: #2d3748;
 			margin-bottom: 15px;
-			padding-left: 10px;
-			border-left: 4px solid #000;
+			margin-top: 25px;
+			padding-left: 15px;
+			border-left: 4px solid #667eea;
 		}
 		
 		.button-grid {
@@ -117,12 +120,12 @@
 		.stat-btn.pie::before {
 			content: '🥧';
 		}
-		
+	
 		.chart-container {
 			background-color: white;
-			border-radius: 8px;
+			border-radius: 12px;
 			padding: 40px;
-			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 			display: flex;
 			justify-content: center;
 			align-items: center;
@@ -131,12 +134,13 @@
 		
 		.empty-chart {
 			text-align: center;
-			color: #999;
+			color: #a0aec0;
 		}
 		
 		.empty-chart-icon {
-			font-size: 64px;
+			font-size: 80px;
 			margin-bottom: 20px;
+			opacity: 0.5;
 		}
 		
 		.empty-chart-text {
@@ -163,19 +167,19 @@
 	<input type="hidden" id="contextPath" value="${pageContext.request.contextPath}">
 	
 	<div class="main-container">
-		<h1 class="page-title">매출 통계</h1>
+		<h1 class="page-title">📊 매출 통계 대시보드</h1>
 		
 		<div class="stats-card">
 			<!-- 날짜 선택 -->
 			<div class="date-section">
-				<span class="date-label">조회 기간</span>
+				<span class="date-label">📅 조회 기간</span>
 				<input type="date" class="date-input" id="fromYM" value="2025-01-01">
-				<span>~</span>
+				<span style="color: #718096; font-weight: bold;">~</span>
 				<input type="date" class="date-input" id="toYM" value="2025-12-31">
 			</div>
 			
 			<!-- 월별 통계 -->
-			<div class="section-title">월별 통계</div>
+			<div class="section-title">📈 월별 통계</div>
 			<div class="button-grid">
 				<button type="button" class="stat-btn line" id="totalOrderBtn">
 					특정년도의 월별 주문횟수(누적)
@@ -192,32 +196,32 @@
 			</div>
 			
 			<!-- 고객 랭킹 -->
-			<div class="section-title">고객 랭킹</div>
+			<div class="section-title">👥 고객 랭킹</div>
 			<div class="button-grid">
-				<button type="button" class="stat-btn bar" id="customerOrderRankBtn">
+				<button type="button" class="stat-btn rank" id="customerOrderRankBtn">
 					고객별 주문 횟수 TOP 10
 				</button>
-				<button type="button" class="stat-btn bar" id="customerPriceRankBtn">
+				<button type="button" class="stat-btn rank" id="customerPriceRankBtn">
 					고객별 총금액 TOP 10
 				</button>
 			</div>
 			
 			<!-- 상품 랭킹 -->
-			<div class="section-title">상품 랭킹</div>
+			<div class="section-title">🛍️ 상품 랭킹</div>
 			<div class="button-grid">
-				<button type="button" class="stat-btn bar" id="goodsOrderRankBtn">
+				<button type="button" class="stat-btn rank" id="goodsOrderRankBtn">
 					상품별 주문횟수 TOP 10
 				</button>
-				<button type="button" class="stat-btn bar" id="goodsPriceRankBtn">
+				<button type="button" class="stat-btn rank" id="goodsPriceRankBtn">
 					상품별 주문금액 TOP 10
 				</button>
-				<button type="button" class="stat-btn bar" id="reviewRankBtn">
+				<button type="button" class="stat-btn rank" id="reviewRankBtn">
 					상품별 평균 리뷰평점 TOP 10
 				</button>
 			</div>
 			
 			<!-- 성별 통계 -->
-			<div class="section-title">성별 통계</div>
+			<div class="section-title">👫 성별 통계</div>
 			<div class="button-grid">
 				<button type="button" class="stat-btn pie" id="genderOrderBtn">
 					성별 총 주문 수량
@@ -242,10 +246,15 @@
 		let myChart = null;
 		
 		// 차트 색상 팔레트
-		let colorSchemes = {
-			purple: ['#667eea', '#764ba2', '#f093fb', '#4facfe', '#43e97b', '#fa709a'],
-			blue: ['#4facfe', '#00f2fe', '#667eea', '#764ba2', '#43e97b', '#fa709a'],
-			gradient: ['#667eea', '#764ba2', '#f093fb', '#4facfe', '#43e97b', '#fa709a', '#feca57', '#ff6b6b', '#ee5a6f', '#c44569']
+		const chartColors = {
+			primary: ['#4a5568', '#718096', '#a0aec0', '#cbd5e0', '#e2e8f0', '#edf2f7', '#f7fafc'],
+			gradient: {
+				purple: {start: '#667eea', end: '#764ba2'},
+				pink: {start: '#f093fb', end: '#f5576c'},
+				blue: {start: '#4facfe', end: '#00f2fe'},
+				green: {start: '#43e97b', end: '#38f9d7'},
+				orange: {start: '#fa709a', end: '#fee140'}
+			}
 		};
 		
 		function showChart() {
@@ -253,7 +262,6 @@
 			$('#myChart').show();
 		}
 		
-		// 누적 주문량 라인 차트
 		$('#totalOrderBtn').click(function() {
 			$.ajax({
 				url : $('#contextPath').val()+'/restapi/totalOrder',
@@ -283,38 +291,18 @@
 							datasets: [{
 								label: ($('#fromYM').val()).slice(0, 4) + '년도 주문량 추이(누적)',
 							    data: y,
-							    borderColor: "#667eea",
-							    backgroundColor: "rgba(102, 126, 234, 0.1)",
+							    borderColor: "#f5576c",
+							    backgroundColor: "rgba(245, 87, 108, 0.1)",
 							    fill: true,
 							    tension: 0.4,
-							    borderWidth: 3,
-							    pointBackgroundColor: '#667eea',
-							    pointBorderColor: '#fff',
-							    pointBorderWidth: 2,
-							    pointRadius: 5,
-							    pointHoverRadius: 7
+							    borderWidth: 3
 							}]
 						},
 						options: {
 							responsive: true,
 							maintainAspectRatio: true,
 							plugins: {
-								legend: {
-									display: true,
-									labels: {
-										font: {size: 14, weight: 'bold'},
-										color: '#333'
-									}
-								}
-							},
-							scales: {
-								y: {
-									beginAtZero: true,
-									grid: {color: 'rgba(0,0,0,0.05)'}
-								},
-								x: {
-									grid: {color: 'rgba(0,0,0,0.05)'}
-								}
+								legend: {display: true, position: 'top'}
 							}
 						}
 					});
@@ -355,34 +343,14 @@
 							    backgroundColor: "rgba(102, 126, 234, 0.1)",
 							    fill: true,
 							    tension: 0.4,
-							    borderWidth: 3,
-							    pointBackgroundColor: '#667eea',
-							    pointBorderColor: '#fff',
-							    pointBorderWidth: 2,
-							    pointRadius: 5,
-							    pointHoverRadius: 7
+							    borderWidth: 3
 							}]
 						},
 						options: {
 							responsive: true,
 							maintainAspectRatio: true,
 							plugins: {
-								legend: {
-									display: true,
-									labels: {
-										font: {size: 14, weight: 'bold'},
-										color: '#333'
-									}
-								}
-							},
-							scales: {
-								y: {
-									beginAtZero: true,
-									grid: {color: 'rgba(0,0,0,0.05)'}
-								},
-								x: {
-									grid: {color: 'rgba(0,0,0,0.05)'}
-								}
+								legend: {display: true, position: 'top'}
 							}
 						}
 					});
@@ -415,39 +383,28 @@
 					let ctx = document.getElementById('myChart');
 
 					myChart = new Chart(ctx, {
-						type: "bar",
-						data: {
-							labels: xValues,
-							datasets: [{
-								label: '주문 횟수',
-								backgroundColor: colorSchemes.gradient,
-								borderColor: colorSchemes.gradient,
-								borderWidth: 2,
-								data: yValues
-							}]
-						},
-						options: {
-							responsive: true,
-							maintainAspectRatio: true,
-							plugins: {
-								legend: {display: false},
-								title: {
-									display: true,
-									text: ($('#fromYM').val()).slice(0, 4) + '년도 월별 주문횟수 추이',
-									font: {size: 18, weight: 'bold'},
-									color: '#333'
-								}
-							},
-							scales: {
-								y: {
-									beginAtZero: true,
-									grid: {color: 'rgba(0,0,0,0.05)'}
-								},
-								x: {
-									grid: {display: false}
-								}
-							}
-						}		
+					  type: "bar",
+					  data: {
+					    labels: xValues,
+					    datasets: [{
+					      label: '주문 횟수',
+					      backgroundColor: chartColors.primary,
+					      data: yValues
+					    }]
+					  },
+					  options: {
+					    responsive: true,
+					    maintainAspectRatio: true,
+					    plugins: {
+					      legend: {display: false},
+					      title: {
+					        display: true,
+					        text: ($('#fromYM').val()).slice(0, 4) + '년도 월별 주문횟수 추이',
+					        font: {size: 18, weight: 'bold'},
+					        color: '#2d3748'
+					      }
+					    }
+					  }
 					});
 				},
 			});
@@ -478,27 +435,28 @@
 					let ctx = document.getElementById('myChart');
 
 					myChart = new Chart(ctx, {
-						type: "bar",
-						data: {
-							labels: xValues,
-							datasets: [{
-								label: '주문 금액',
-								backgroundColor: "#000",
-								data: yValues
-							}]
-						},
-						options: {
-							responsive: true,
-							maintainAspectRatio: true,
-							plugins: {
-								legend: {display: false},
-								title: {
-									display: true,
-									text: ($('#fromYM').val()).slice(0, 4) + '년도 월별 주문금액 추이',
-									font: {size: 18, weight: 'bold'}
-								}
-							}
-						}
+					  type: "bar",
+					  data: {
+					    labels: xValues,
+					    datasets: [{
+					      label: '주문 금액',
+					      backgroundColor: chartColors.primary,
+					      data: yValues
+					    }]
+					  },
+					  options: {
+					    responsive: true,
+					    maintainAspectRatio: true,
+					    plugins: {
+					      legend: {display: false},
+					      title: {
+					        display: true,
+					        text: ($('#fromYM').val()).slice(0, 4) + '년도 월별 주문금액 추이',
+					        font: {size: 18, weight: 'bold'},
+					        color: '#2d3748'
+					      }
+					    }
+					  }
 					});
 				},
 			});
@@ -534,7 +492,7 @@
 					    labels: xValues,
 					    datasets: [{
 					      label: '주문 횟수',
-					      backgroundColor: "#000",
+					      backgroundColor: chartColors.primary,
 					      data: yValues
 					    }]
 					  },
@@ -546,8 +504,9 @@
 					      legend: {display: false},
 					      title: {
 					        display: true,
-					        text: '고객별 주문 횟수 TOP 10',
-					        font: {size: 18, weight: 'bold'}
+					        text: '🏆 고객별 주문 횟수 TOP 10',
+					        font: {size: 18, weight: 'bold'},
+					        color: '#2d3748'
 					      }
 					    }
 					  }
@@ -586,7 +545,7 @@
 					    labels: xValues,
 					    datasets: [{
 					      label: '주문 금액',
-					      backgroundColor: "#000",
+					      backgroundColor: chartColors.primary,
 					      data: yValues
 					    }]
 					  },
@@ -598,8 +557,9 @@
 					      legend: {display: false},
 					      title: {
 					        display: true,
-					        text: '고객별 주문 금액 TOP 10',
-					        font: {size: 18, weight: 'bold'}
+					        text: '🏆 고객별 주문 금액 TOP 10',
+					        font: {size: 18, weight: 'bold'},
+					        color: '#2d3748'
 					      }
 					    }
 					  }
@@ -638,7 +598,7 @@
 					    labels: xValues,
 					    datasets: [{
 					      label: '주문 횟수',
-					      backgroundColor: "#000",
+					      backgroundColor: chartColors.primary,
 					      data: yValues
 					    }]
 					  },
@@ -650,8 +610,9 @@
 					      legend: {display: false},
 					      title: {
 					        display: true,
-					        text: '상품별 주문 횟수 TOP 10',
-					        font: {size: 18, weight: 'bold'}
+					        text: '🏆 상품별 주문 횟수 TOP 10',
+					        font: {size: 18, weight: 'bold'},
+					        color: '#2d3748'
 					      }
 					    }
 					  }
@@ -690,7 +651,7 @@
 					    labels: xValues,
 					    datasets: [{
 					      label: '주문 금액',
-					      backgroundColor: "#000",
+					      backgroundColor: chartColors.primary,
 					      data: yValues
 					    }]
 					  },
@@ -702,8 +663,9 @@
 					      legend: {display: false},
 					      title: {
 					        display: true,
-					        text: '상품별 주문 금액 TOP 10',
-					        font: {size: 18, weight: 'bold'}
+					        text: '🏆 상품별 주문 금액 TOP 10',
+					        font: {size: 18, weight: 'bold'},
+					        color: '#2d3748'
 					      }
 					    }
 					  }
@@ -742,7 +704,7 @@
 					    labels: xValues,
 					    datasets: [{
 					      label: '평균 평점',
-					      backgroundColor: "#000",
+					      backgroundColor: chartColors.primary,
 					      data: yValues
 					    }]
 					  },
@@ -754,8 +716,9 @@
 					      legend: {display: false},
 					      title: {
 					        display: true,
-					        text: '상품별 평균 리뷰 평점 TOP 10',
-					        font: {size: 18, weight: 'bold'}
+					        text: '⭐ 상품별 평균 리뷰 평점 TOP 10',
+					        font: {size: 18, weight: 'bold'},
+					        color: '#2d3748'
 					      }
 					    }
 					  }
@@ -780,7 +743,7 @@
 				
 					let xValues = [];
 					let yValues = [];
-					let barColors = ["#000", "#666"];
+					let barColors = ["#667eea", "#f5576c"];
 					
 					result.forEach(function(m) {
 						xValues.push(m.gender);
@@ -795,7 +758,8 @@
 					    labels: xValues,
 					    datasets: [{
 					      backgroundColor: barColors,
-					      data: yValues
+					      data: yValues,
+					      borderWidth: 0
 					    }]
 					  },
 					  options: {
@@ -805,8 +769,9 @@
 					      legend: {display: true, position: 'bottom'},
 					      title: {
 					        display: true,
-					        text: '성별 총 주문 수량',
-					        font: {size: 18, weight: 'bold'}
+					        text: '👫 성별 총 주문 수량',
+					        font: {size: 18, weight: 'bold'},
+					        color: '#2d3748'
 					      }
 					    }
 					  }
@@ -831,7 +796,7 @@
 				
 					let xValues = [];
 					let yValues = [];
-					let barColors = ["#000", "#666"];
+					let barColors = ["#4facfe", "#43e97b"];
 					
 					result.forEach(function(m) {
 						xValues.push(m.gender);
@@ -846,7 +811,8 @@
 					    labels: xValues,
 					    datasets: [{
 					      backgroundColor: barColors,
-					      data: yValues
+					      data: yValues,
+					      borderWidth: 0
 					    }]
 					  },
 					  options: {
@@ -856,8 +822,9 @@
 					      legend: {display: true, position: 'bottom'},
 					      title: {
 					        display: true,
-					        text: '성별 총 주문 금액',
-					        font: {size: 18, weight: 'bold'}
+					        text: '💰 성별 총 주문 금액',
+					        font: {size: 18, weight: 'bold'},
+					        color: '#2d3748'
 					      }
 					    }
 					  }
